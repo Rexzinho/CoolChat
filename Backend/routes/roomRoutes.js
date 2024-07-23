@@ -4,6 +4,7 @@ const router = express.Router();
 const checkToken = require("../middlewares/checkToken");
 
 router.get("/", RoomController.list);
+router.get("/:idRoom", RoomController.messages);
 router.post("/create", RoomController.create);
 router.post("/message", checkToken, RoomController.sendMessage);
 

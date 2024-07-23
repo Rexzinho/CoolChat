@@ -34,10 +34,16 @@ module.exports = class UserController{
         }
         bcrypt.hash(password, 10).then(async (hash) => {
             try {
-                await User.create({nick, password: hash});
-                return res.status(200).json({
-                    msg: "Usuário registrado com sucesso."
-                })
+                const user = await User.create({nick, password: hash});
+                const secret = process.env.SECRET;
+                jwt.sign({nick: nick}, secret, { expiresIn: "24h" }, (err, token) => {
+                    return res.status(200).json({
+                        msg: "Usuário registrado com sucesso.",
+                        nick: user.nick,
+                        userId: user._id,
+                        token: token
+                    });
+                });
             } 
             catch (error) {
                 console.log(error);
@@ -73,7 +79,7 @@ module.exports = class UserController{
                         userId: user._id,
                         token: token
                     });
-                })
+                });
             }else{
                 return res.status(400).json({
                     msg: "Senha incorreta."

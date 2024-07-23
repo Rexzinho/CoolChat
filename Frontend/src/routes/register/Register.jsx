@@ -1,6 +1,6 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import coolchat from '../../axios/config';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 import { UserContext } from "../../contexts/user";
 
 const Register = () =>{
@@ -14,15 +14,28 @@ const Register = () =>{
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if(user) navigate("/home/profile");
+  }, []);
+
   const createAccount = async () => {
     try {
-      await coolchat.post("/user/register", {nick, password, confirmationPassword});
+      console.log('bbbb');
+
+      const resp = await coolchat.post("/user/register", {nick, password, confirmationPassword});
+      const data = resp.data;
+      const newUser = {
+        nick: data.nick,
+        userId: data.userId,
+        token: data.token
+      }
+      setUser(newUser);
+      localStorage.setItem("user", JSON.stringify(newUser));
       navigate("/home/profile");
     } 
     catch (error) {
       const thisError = await error.response.data.msg
       setError(thisError);
-      console.log(error);
     }
   }
 

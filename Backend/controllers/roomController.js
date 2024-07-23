@@ -42,6 +42,33 @@ module.exports = class RoomController{
         }
     }
 
+    static async messages(req, res){
+
+        const idRoom = req.params.idRoom;
+
+        if(!idRoom || idRoom === ":idRoom"){
+            return res.status(400).json({
+                msg: "Necessário informar o id da sala."
+            });
+        }
+
+        try {
+            const room = await Room.findById(idRoom);
+            if(!room){
+                return res.status(404).json({
+                    msg: "Sala não encontrada."
+                })
+            }
+            return res.status(200).json(room.messages);
+        } 
+        catch (error) {
+            return res.status(500).json({
+                msg: "Erro ao listar mensagens. Tente novamente mais tarde."
+            });
+        }
+
+    }
+
     static async sendMessage(req, res){
         const {roomId, userId, content} = req.body;
         if(!roomId || !userId || !content){

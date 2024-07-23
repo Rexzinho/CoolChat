@@ -1,12 +1,14 @@
 import { Outlet } from 'react-router-dom';
 import UserProvider from './contexts/user';
+import { useContext } from 'react';
 import './App.css'
 
-const App = () => {
+import Navbar from './components/navbar/Navbar';
 
+const App = () => {
   return (
     <UserProvider>
-      <p>aaa</p>
+      <Navbar/>
       <Outlet/>
     </UserProvider>
   );
