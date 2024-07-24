@@ -8,8 +8,12 @@ import Navbar from './components/navbar/Navbar';
 const App = () => {
   return (
     <UserProvider>
-      <Navbar/>
-      <Outlet/>
+      <div className="main">
+        <Navbar/>
+        <div className="container">
+          <Outlet/>
+        </div>
+      </div>
     </UserProvider>
   );
 }

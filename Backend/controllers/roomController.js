@@ -1,5 +1,6 @@
 const connect = require("../models/db");
-const Room = require("../models/room")
+const Room = require("../models/room");
+const User = require("../models/user");
 
 connect();
 
@@ -59,14 +60,24 @@ module.exports = class RoomController{
                     msg: "Sala não encontrada."
                 })
             }
-            return res.status(200).json(room.messages);
+            const messages = await Promise.all(room.messages.map(async (message) => {
+                const user = await User.findById(message.userId);
+                const data = {
+                    content: message.content,
+                    nick: user.nick,
+                    postedAt: message.postedAt,
+                    updatedAt: message.updatedAt,
+                };
+                return data;
+            }));
+            return await res.status(200).json(messages);
         } 
         catch (error) {
+            console.log(error);
             return res.status(500).json({
                 msg: "Erro ao listar mensagens. Tente novamente mais tarde."
             });
         }
-
     }
 
     static async sendMessage(req, res){

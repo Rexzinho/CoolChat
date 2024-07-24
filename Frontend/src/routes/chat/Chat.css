@@ -1,0 +1,19 @@
+.messages{
+    list-style: none;
+    padding: 0;
+}
+.message-content{
+    background-color: #206DDF;
+    width: fit-content;
+    padding: 20px;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    margin-top: 3px;
+}
+.message-user{
+    font-size: 0.9rem;
+}
+.message{
+    color: white;
+    margin-top: 12px;
+}

@@ -1,0 +1,12 @@
+.chat-list{
+    padding: 0;
+    list-style: none;
+    gap: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.chat-list li{
+    width: 500px;
+    color: white;
+}
