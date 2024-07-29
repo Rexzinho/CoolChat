@@ -20,8 +20,6 @@ const Register = () =>{
 
   const createAccount = async () => {
     try {
-      console.log('bbbb');
-
       const resp = await coolchat.post("/user/register", {nick, password, confirmationPassword});
       const data = resp.data;
       const newUser = {
@@ -74,7 +72,6 @@ const Register = () =>{
       </form>
       <button onClick={createAccount}>Criar conta</button>
       {error && <p>{error}</p>}
-      <button onClick={() => console.log(user)}>TESTE</button>
     </div>
   )
 }

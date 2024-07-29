@@ -8,11 +8,7 @@ const Navbar = () =>{
 
   const {user, setUser, chats, setChats} = useContext(UserContext);
   const locate = useLocation();
-
-  useEffect(() => {
-    console.log(locate);
-  }, [locate]);
-
+  
   return (
     <div className="navbar">
         {user && <p>{user.nick}</p>}

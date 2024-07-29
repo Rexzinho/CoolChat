@@ -96,6 +96,7 @@ module.exports = class RoomController{
             });
         } 
         catch (error) {
+            console.log(error);
             return res.status(500).json({
                 msg: "Erro ao enviar mensagem. Tente novamente mais tarde."
             });

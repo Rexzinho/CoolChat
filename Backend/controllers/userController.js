@@ -73,7 +73,7 @@ module.exports = class UserController{
             if(result){
                 const secret = process.env.SECRET;
                 jwt.sign({nick: nick}, secret, { expiresIn: "24h" }, (err, token) => {
-                    return res.status(400).json({
+                    return res.status(200).json({
                         msg: "Welcome to CoolChat.",
                         nick: user.nick,
                         userId: user._id,
