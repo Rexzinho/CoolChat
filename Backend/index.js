@@ -17,7 +17,9 @@ const io = new Server(server, {
     cors: {
         origin: "http://localhost:5173",
       }
-})
+});
+
+const { sendMessage, joinRoom } = require("./socket")(io);
 
 app.use(cors());
 app.use(express.json());
@@ -48,17 +50,13 @@ io.use(async (socket, next) => {
     });
 })
 
-io.on("connection", socket => {
+const onConnection = (socket) => {
     console.log(socket.id);
-    socket.on("send-message", (message, room) => {
-        socket.to(room).emit("receive-message", message);
-        console.log(`Mensagem: ${message.content} enviada para a sala ${room}`);
-    });
-    socket.on("join-room", room => {
-        socket.join(room);
-        console.log(`Conectado na sala ${room}`);
-    })
-})
+    socket.on("send-message", sendMessage);
+    socket.on("join-room", joinRoom);
+}
+
+io.on("connection", onConnection);
 
 server.listen(port, () => {
     console.log("Rodando na porta " + port);
