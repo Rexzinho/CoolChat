@@ -37,6 +37,7 @@ app.use("/sobre", (req, res) => {
 });
 
 io.use(async (socket, next) => {
+
     const token = socket.handshake.headers.token;
     if(!token){
         return;
@@ -48,6 +49,7 @@ io.use(async (socket, next) => {
         }
         next();
     });
+    next();
 })
 
 const onConnection = (socket) => {
