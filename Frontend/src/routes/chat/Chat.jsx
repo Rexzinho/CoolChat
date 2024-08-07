@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from '../../contexts/user';
 import coolchat from '../../axios/config';
 import { io } from 'socket.io-client';
@@ -16,6 +16,11 @@ const Chat = () => {
   const [index, setIndex] = useState(null);
 
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(!user) navigate("/home/login");
+  }, []);
 
   useEffect(() => {
     if(chats.length === 0) return;
@@ -59,7 +64,7 @@ const Chat = () => {
       nick: user.nick,
       content: content
     }
-    socket.emit("send-message", message, room.name);
+    socket.emit("send-message", message);
     setMessages(prevMessages => [...prevMessages, message]);
     const messageRequest = {
       userId: user.userId,

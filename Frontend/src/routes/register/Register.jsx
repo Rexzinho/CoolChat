@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import coolchat from '../../axios/config';
 import { redirect, useNavigate } from 'react-router-dom';
 import { UserContext } from "../../contexts/user";
+import Dice from '../../assets/Dice.svg';
 
 const Register = () =>{
 
@@ -18,7 +19,8 @@ const Register = () =>{
     if(user) navigate("/home/profile");
   }, []);
 
-  const createAccount = async () => {
+  const createAccount = async (e) => {
+    e.preventDefault();
     try {
       const resp = await coolchat.post("/user/register", {nick, password, confirmationPassword});
       const data = resp.data;
@@ -37,41 +39,60 @@ const Register = () =>{
     }
   }
 
+  const generateNick = () => {
+    setNick("Oliver Tree");
+  }
+
   return (
     <div>
-      <h1>CoolChat</h1>
-      <h2>Criar uma conta</h2>
-      <form>
+      <h2 className="title">Criar uma conta</h2>
+      <form onSubmit={createAccount} className="home-form">
         <div className="form-group">
           <label htmlFor="name">Insira neu nick</label>
-          <input 
-            placeholder="nick" 
-            type="text" 
-            name="nick"
-            onChange={(event) => setNick(event.target.value)}
+        <div className="border form-border">
+          <div className="inside nick-group">
+            <input 
+              placeholder="nick" 
+              type="text" 
+              name="nick"
+              onChange={(event) => setNick(event.target.value)}
+              value={nick}
             />
+            <img src={Dice} alt="Dice" className="dice-img" onClick={generateNick}/>
+          </div>
+        </div>
         </div>
         <div className="form-group">
           <label htmlFor="name">Insira sua senha</label>
-          <input 
-            placeholder="password" 
-            type="text" 
-            name="password"
-            onChange={(event) => setPassword(event.target.value)}
-          />
+          <div className="border form-border">
+            <div className="inside">
+              <input 
+                placeholder="password" 
+                type="text" 
+                name="password"
+                onChange={(event) => setPassword(event.target.value)}
+                value={password}
+              />
+            </div>
+          </div>
         </div>
         <div className="form-group">
           <label htmlFor="name">Confirme sua senha</label>
-          <input 
-            placeholder="confirmation password" 
-            type="text" 
-            name="confirmationPassword"
-            onChange={(event) => setConfirmationPassword(event.target.value)}
-          />
+          <div className="border form-border">
+            <div className="inside">
+              <input 
+                placeholder="confirmation password" 
+                type="text" 
+                name="confirmationPassword"
+                value={confirmationPassword}
+                onChange={(event) => setConfirmationPassword(event.target.value)}
+              />
+            </div>
+          </div>
         </div>
+        <button type="submit" className="cool-btn">Criar conta</button>
       </form>
-      <button onClick={createAccount}>Criar conta</button>
-      {error && <p>{error}</p>}
+      {error && <p className="error-message">{error}</p>}
     </div>
   )
 }

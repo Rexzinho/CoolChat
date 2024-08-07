@@ -8,10 +8,21 @@ const Navbar = () =>{
 
   const {user, setUser, chats, setChats} = useContext(UserContext);
   const locate = useLocation();
+
+  const logOut = () => {
+    setUser(null);
+    localStorage.clear();
+    const navigate = useNavigate();
+    navigate("/home");
+  }
   
   return (
     <div className="navbar">
-        {user && <p>{user.nick}</p>}
+        {user && 
+        <div className="user-info">
+          {user && <label>{user.nick}</label>}
+          <button onClick={logOut}>Sair</button>
+        </div>}
         <ul>
           <li className={!locate.pathname.includes("home") && "nav-item"}>
               <Link to={"/home"}>

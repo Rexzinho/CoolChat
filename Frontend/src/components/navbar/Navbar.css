@@ -9,3 +9,22 @@
     color: white;
     font-size: 0.9rem;
 }
+.user-info{
+    color: white;
+    display: flex;
+    gap: 20px;
+    height: fit-content;
+    align-items: center;
+}
+.user-info button{
+    background-color: transparent;
+    border: none;
+    border: 3px solid transparent;
+    color: gray;
+    padding: 5px 15px;
+    border-radius: 30px;
+}
+.user-info button:hover{
+    cursor: pointer;
+    border: 3px solid #464646;
+}

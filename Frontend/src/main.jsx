@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-import { createBrowserRouter, RouterProvider} from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate, Link } from 'react-router-dom';
 import Home from './routes/home/Home';
 import ChatList from './routes/chat-list/ChatList';
 import Chat from './routes/chat/Chat';
@@ -36,6 +36,10 @@ const router = createBrowserRouter([{
       path: "/home/profile",
       element: <Profile/>
     },
+    {
+      path: "*",
+      element: <Link to={"/home"}>Home</Link>
+    }
   ]  
 }]);
 
