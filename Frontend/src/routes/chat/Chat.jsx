@@ -19,7 +19,7 @@ const Chat = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(!user) navigate("/home/login");
+    if(!user) navigate("/home");
   }, []);
 
   useEffect(() => {
@@ -96,9 +96,9 @@ const Chat = () => {
           </li>
         ))}
       </ul>
-      <form>
-        <input type="text" placeholder="message" value={content} onChange={(e) => setContent(e.target.value)}/>
-        <button onClick={(e) => sendMessage(e)}>Enviar</button>
+      <form onSubmit={sendMessage}>
+        <textarea type="text" placeholder="message" value={content} onChange={(e) => setContent(e.target.value)}></textarea>
+        <button type="submit">Enviar</button>
       </form>
     </>
   )

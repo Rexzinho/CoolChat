@@ -3,11 +3,15 @@
     list-style: none;
     gap: 10px;
     padding: 0;
+    overflow: auto;
 }
 .navbar li a{
     text-decoration: none;
     color: white;
     font-size: 0.9rem;
+}
+.nav-item{
+    display: flex;
 }
 .user-info{
     color: white;
@@ -27,4 +31,24 @@
 .user-info button:hover{
     cursor: pointer;
     border: 3px solid #464646;
+}
+.navbar h2{
+    font-size: 1rem;
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 120px;
+}
+.close-button{
+    margin-left: 10px;
+    margin-right: -10px;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.close-button:hover{
+    cursor: pointer;
 }

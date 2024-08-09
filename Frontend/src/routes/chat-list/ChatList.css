@@ -7,6 +7,7 @@
     align-items: center;
 }
 .chat-list li{
-    width: 500px;
+    width: 95%;
+    max-width: 500px;
     color: white;
 }

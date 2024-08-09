@@ -5,16 +5,17 @@ import './index.css'
 import { createBrowserRouter, RouterProvider, Navigate, Link } from 'react-router-dom';
 import Home from './routes/home/Home';
 import ChatList from './routes/chat-list/ChatList';
+import CreateChat from './routes/create-chat/CreateChat';
 import Chat from './routes/chat/Chat';
 import Register from './routes/register/Register';
-import Login from './routes/login/Login';
 import Profile from './routes/profile/Profile';
 
 const router = createBrowserRouter([{
   element: <App/>,
-  children: [{
+  children: [
+    {
       path: "/home",
-      element: <Home/>
+      element: <Home/>,
     },
     {
       path: "/chat-list",
@@ -25,21 +26,21 @@ const router = createBrowserRouter([{
       element: <Chat/>
     },
     {
-      path: "/home/register",
-      element: <Register/>
-    },
-    {
-      path: "/home/login",
-      element: <Login/>
-    },
-    {
-      path: "/home/profile",
-      element: <Profile/>
+      path: "/create-chat",
+      element: <CreateChat/>
     },
     {
       path: "*",
       element: <Link to={"/home"}>Home</Link>
-    }
+    },
+    {
+      path: "/register",
+      element: <Register/>
+    },
+    {
+      path: "/profile",
+      element: <Profile/>
+    },
   ]  
 }]);
 

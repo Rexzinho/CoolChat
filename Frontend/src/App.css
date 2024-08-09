@@ -17,6 +17,7 @@ html{
     border-radius: 30px;
     padding: 30px;
     height: 90%;
+    overflow: auto;
 }
 @font-face {
     font-family: "MuseoModerno";

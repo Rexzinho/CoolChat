@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import coolchat from '../../axios/config';
 import { UserContext } from '../../contexts/user';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
+import Create from '../../assets/Create.svg';
 import "./ChatList.css";
 
 const ChatList = () => {
@@ -41,7 +42,16 @@ const ChatList = () => {
 
   return (
     <div>
-      <h2 className="title">CONVERSAS COOL</h2>
+      <div className="title-container">
+        <h2 className="title">CONVERSAS COOL</h2>
+        <Link to={"/create-chat"}>
+          <img 
+            src={Create} 
+            alt="Create chat"
+            style={{cursor: "pointer"}}
+          />
+        </Link>
+      </div>
       <ul className="chat-list">
         {rooms.map(({id, name}) => (
           <li>
