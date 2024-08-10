@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react"
-import { Link, useNavigate, useLocation, redirect } from 'react-router-dom';
+import { Link, useNavigate, useLocation, redirect, useParams } from 'react-router-dom';
 import { UserContext } from "../../contexts/user";
 
 import CloseButton from '../../assets/CloseButton.svg'
@@ -20,9 +20,26 @@ const Navbar = () =>{
   }
 
   const closeChat = (index) => {
+    navigate("/profile");
     const newChats = chats.filter((_, i) => i != index);
     setChats(newChats);
-    navigate("/profile");
+  }
+
+  const getUrl = (index) => {
+    if(!locate.pathname.includes("chat/")){
+      return locate.pathname;
+    }
+    let { number } = useParams();
+    number = Number(number);
+    if(index+1 !== number){
+      return number > index ? `/chat/${number-1}` : `/chat/${number}`
+    }
+    else if(number === 1 && chats.length === 1){
+      return "/chat-list";
+    }
+    else{
+      return number > 1 ? `/chat/${(number-1)}` : `/chat/${(number)}`;
+    }
   }
   
   return (
@@ -33,7 +50,7 @@ const Navbar = () =>{
           <button onClick={logOut}>Sair</button>
         </div>}
         <ul>
-          <li className={!locate.pathname.includes("home") && "nav-item"}>
+          <li className={!locate.pathname.includes("profile") && "nav-item"}>
               <Link to={user ? "/profile" : "/home"}>
                 <div className="border"><div className="inside">
                   <h2>Home</h2>
@@ -52,9 +69,14 @@ const Navbar = () =>{
               <Link to={`/chat/${(index+1)}`}>
                 <div className="border"><div className="inside" style={{display: "flex"}}>
                   <h2>{name}</h2>
-                  <button className="close-button" onClick={() => closeChat(index)}>
-                    <img src={CloseButton} alt="close-button" />
-                  </button>
+                  <Link 
+                    to={getUrl(index)} 
+                    onClick={() => closeChat(index)
+                  }>
+                    <button className="close-button">
+                      <img src={CloseButton} alt="close-button" />
+                    </button>
+                  </Link>
                 </div></div>
               </Link>
             </li>
