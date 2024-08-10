@@ -11,6 +11,10 @@ const schema = new mongoose.Schema({
         default: "public",
         required: true
     },
+    password: {
+        type: String,
+        required: false
+    },
     createdAt: {
         type: Date,
         immutable: true,

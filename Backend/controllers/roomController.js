@@ -1,4 +1,5 @@
 const connect = require("../models/db");
+const bcrypt = require("bcrypt");
 const Room = require("../models/room");
 const User = require("../models/user");
 
@@ -8,13 +9,46 @@ module.exports = class RoomController{
 
     static async create(req, res){
         const {name, type} = req.body;
-        if(!name){
+        const password = type === "private" ? req.body.password : null;
+        if(!name || name.trim().length === 0){
             return res.status(400).json({
-                msg: "Necessário informar o nome da sala"
+                msg: "Necessário informar o nome da sala."
             });
         }
+        const checkName = await Room.findOne({name: name.trim()});
+        if(checkName){
+            return res.status(400).json({
+                msg: "Nome de chat já em uso."
+            })
+        }
+        if(type === "private"){
+            if(!password || password.trim().length === 0){
+                return res.status(400).json({
+                    msg: "Necessário informar a senha da sala."
+                });
+            }
+            if(password.trim().length < 5){
+                return res.status(400).json({
+                    msg: "A senha deve conter pelo menos 5 digitos."
+                });
+            }
+        }
         try {
-            await Room.create({name, type})
+            if(type === "private"){
+                await bcrypt.hash(password.trim(), 10).then(async (hash) => {
+                    await Room.create({
+                        name: name.trim(), 
+                        type, 
+                        password: hash
+                    });
+                })
+            }
+            else{
+                await Room.create({
+                    name: name.trim(), 
+                    type
+                });
+            }
             return res.status(200).json({
                 msg: "Sala criada com sucesso."
             })
