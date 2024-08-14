@@ -5,6 +5,7 @@ import'./Home.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../contexts/user';
 import coolchat from '../../axios/config';
+import FormGroup from '../../components/form-group/FormGroup';
 
 const Home = () => {
 
@@ -42,34 +43,20 @@ const Home = () => {
       <img src={CoolChatLogo} style={{scale: "0.8"}}></img>
     </div>
     <form onSubmit={login} className="home-form">
-      <div className="form-group">
-        <label htmlFor="name">Insira neu nick</label>
-      <div className="border form-border">
-        <div className="inside nick-group">
-          <input 
-            placeholder="nick" 
-            type="text" 
-            name="nick"
-            onChange={(event) => setNick(event.target.value)}
-            value={nick}
-          />
-        </div>
-      </div>
-      </div>
-      <div className="form-group">
-        <label htmlFor="name">Insira sua senha</label>
-        <div className="border form-border">
-          <div className="inside">
-            <input 
-              placeholder="password" 
-              type="text" 
-              name="password"
-              onChange={(event) => setPassword(event.target.value)}
-              value={password}
-            />
-          </div>
-        </div>
-      </div>
+      <FormGroup
+        label="Insira seu nick"
+        placeholder="nick"
+        name={"nick"}
+        set={setNick}
+        value={nick}
+      />
+      <FormGroup
+        label="Insira sua senha"
+        placeholder="senha"
+        name={"password"}
+        set={setPassword}
+        value={password}
+      />
       <button type="submit" className="cool-btn">Entrar</button>
     </form>
     {error && <p className="error-message">{error}</p>}

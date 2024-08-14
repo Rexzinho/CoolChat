@@ -9,7 +9,7 @@ import "./ChatList.css";
 const ChatList = () => {
 
   const [rooms, setRooms] = useState([]);
-  const {chats, setChats} = useContext(UserContext);
+  const {user, chats, setChats} = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -44,7 +44,7 @@ const ChatList = () => {
     <div>
       <div className="title-container">
         <h2 className="title">CONVERSAS COOL</h2>
-        <Link to={"/create-chat"}>
+        <Link to={user ? "/create-chat" : "/home"}>
           <img 
             src={Create} 
             alt="Create chat"

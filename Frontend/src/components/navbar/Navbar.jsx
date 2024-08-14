@@ -46,7 +46,7 @@ const Navbar = () =>{
     <div className="navbar">
         {user && 
         <div className="user-info">
-          {user && <label>{user.nick}</label>}
+          {user && <label onClick={() => console.log(chats)}>{user.nick}</label>}
           <button onClick={logOut}>Sair</button>
         </div>}
         <ul>

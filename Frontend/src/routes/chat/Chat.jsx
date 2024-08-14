@@ -60,6 +60,7 @@ const Chat = () => {
 
   const sendMessage = async (e) =>{
     e.preventDefault();
+    console.log(room);
     const message = {
       nick: user.nick,
       content: content

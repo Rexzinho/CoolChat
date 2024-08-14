@@ -3,6 +3,7 @@ import coolchat from '../../axios/config';
 import { redirect, useNavigate } from 'react-router-dom';
 import { UserContext } from "../../contexts/user";
 import Dice from '../../assets/Dice.svg';
+import FormGroup from "../../components/form-group/FormGroup";
 
 const Register = () =>{
 
@@ -49,47 +50,33 @@ const Register = () =>{
       <form onSubmit={createAccount} className="home-form">
         <div className="form-group">
           <label htmlFor="name">Insira neu nick</label>
-        <div className="border form-border">
-          <div className="inside nick-group">
-            <input 
-              placeholder="nick" 
-              type="text" 
-              name="nick"
-              onChange={(event) => setNick(event.target.value)}
-              value={nick}
-            />
-            <img src={Dice} alt="Dice" className="dice-img" onClick={generateNick}/>
-          </div>
-        </div>
-        </div>
-        <div className="form-group">
-          <label htmlFor="name">Insira sua senha</label>
           <div className="border form-border">
-            <div className="inside">
+            <div className="inside nick-group">
               <input 
-                placeholder="password" 
+                placeholder="nick" 
                 type="text" 
-                name="password"
-                onChange={(event) => setPassword(event.target.value)}
-                value={password}
+                name="nick"
+                onChange={(event) => setNick(event.target.value)}
+                value={nick}
               />
+              <img src={Dice} alt="Dice" className="dice-img" onClick={generateNick}/>
             </div>
           </div>
         </div>
-        <div className="form-group">
-          <label htmlFor="name">Confirme sua senha</label>
-          <div className="border form-border">
-            <div className="inside">
-              <input 
-                placeholder="confirmation password" 
-                type="text" 
-                name="confirmationPassword"
-                value={confirmationPassword}
-                onChange={(event) => setConfirmationPassword(event.target.value)}
-              />
-            </div>
-          </div>
-        </div>
+        <FormGroup
+          label="Insira sua senha"
+          placeholder="senha"
+          name={"password"}
+          set={setPassword}
+          value={password}
+        />
+        <FormGroup
+          label="Confirme sua senha"
+          placeholder="senha de confirmação"
+          name={"confirmationPassword"}
+          set={setConfirmationPassword}
+          value={confirmationPassword}
+        />
         <button type="submit" className="cool-btn">Criar conta</button>
       </form>
       {error && <p className="error-message">{error}</p>}
