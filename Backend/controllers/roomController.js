@@ -49,8 +49,14 @@ module.exports = class RoomController{
                     type
                 });
             }
+            const createdRoom = await Room.findOne({name: name.trim()});
             return res.status(200).json({
-                msg: "Sala criada com sucesso."
+                msg: "Sala criada com sucesso.",
+                room: {
+                    id: createdRoom._id,
+                    name: createdRoom.name,
+                    type: createdRoom.type,
+                }
             })
         }
         catch (error) {
@@ -122,6 +128,11 @@ module.exports = class RoomController{
             })
         }
         const room = await Room.findOne({_id: roomId});
+        if(!room){
+            return res.status(400).json({
+                msg: "Sala não encontrada."
+            });
+        }
         room.messages.push({content, userId});
         try {
             await Room.updateOne({_id: roomId}, room);
