@@ -5,11 +5,17 @@ import { useNavigate, Link } from 'react-router-dom';
 
 import Create from '../../assets/Create.svg';
 import "./ChatList.css";
+import PasswordModal from '../../components/passwordModal/PasswordModal';
 
 const ChatList = () => {
 
   const [rooms, setRooms] = useState([]);
   const {user, chats, setChats} = useContext(UserContext);
+
+  const [passwordModal, setPasswordModal] = useState(false);
+  const [password, setPassword] = useState("");
+  const [currentRoom, setCurrentRoom] = useState({});
+  const [roomId, setRoomId] = useState(null);
 
   const navigate = useNavigate();
 
@@ -27,21 +33,36 @@ const ChatList = () => {
     }
   }
 
-  const openChat = async (id, name) => {
-    console.log(chats);
-    const index = chats.findIndex((chat => chat.id === id));
-    console.log(index);
+  const openChat = async (room) => {
+    const index = chats.findIndex((chat => chat.id === room.id));
     if(index !== -1){
       navigate(`/chat/${index + 1}`);
       return;
     }
-    const newChats = [...chats, {id, name}];
-    setChats(newChats);
-    navigate(`/chat/${newChats.length}`);
+    if(room.type === "public"){
+      const newChats = [...chats, {id: room.id, name: room.name}];
+      setChats(newChats);
+      navigate(`/chat/${newChats.length}`);
+    }
+    else{
+      setCurrentRoom(room);
+      setPasswordModal(true);
+    }
   }
 
   return (
     <div>
+      {passwordModal && 
+        <PasswordModal 
+          setPassword={setPassword}
+          password={password}
+          room={currentRoom}
+          closeModal={() => {
+            setPasswordModal(false);
+            setPassword("");
+          }}
+        />
+      }
       <div className="title-container">
         <h2 className="title">CONVERSAS COOL</h2>
         <Link to={user ? "/create-chat" : "/home"}>
@@ -53,11 +74,11 @@ const ChatList = () => {
         </Link>
       </div>
       <ul className="chat-list">
-        {rooms.map(({id, name}) => (
-          <li>
+        {rooms.map(room => (
+          <li key={room.id}>
             <div className="border">
-              <div className="inside" onClick={() => openChat(id, name)}>
-                {name}
+              <div className="inside" onClick={() => openChat(room)}>
+                {room.name}
               </div>
             </div>
           </li>

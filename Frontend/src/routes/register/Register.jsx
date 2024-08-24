@@ -5,6 +5,8 @@ import { UserContext } from "../../contexts/user";
 import Dice from '../../assets/Dice.svg';
 import FormGroup from "../../components/form-group/FormGroup";
 
+import { adjectives, animals } from "./Names";
+
 const Register = () =>{
 
   const {user, setUser} = useContext(UserContext);
@@ -41,7 +43,11 @@ const Register = () =>{
   }
 
   const generateNick = () => {
-    setNick("Oliver Tree");
+    const num1 = Math.floor(Math.random() * adjectives.length);
+    const num2 = Math.floor(Math.random() * animals.length);
+    const adjective = adjectives[num1];
+    const animal = animals[num2];
+    setNick(adjective + " " + animal);
   }
 
   return (

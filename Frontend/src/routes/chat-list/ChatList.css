@@ -5,6 +5,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: auto;
+    height: 10%;
 }
 .chat-list li{
     width: 95%;

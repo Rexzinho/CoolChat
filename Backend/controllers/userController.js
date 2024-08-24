@@ -1,4 +1,4 @@
-const connect = require("../models/db");
+const connect = require("../database/db");
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");

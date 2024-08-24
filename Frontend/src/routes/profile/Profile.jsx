@@ -13,7 +13,7 @@ const Profile = () =>{
 
   return (
     <div>
-      {user && <h2>{user.nick}</h2>}
+      {user && <h2 className="title">{user.nick}</h2>}
     </div>
   )
 }

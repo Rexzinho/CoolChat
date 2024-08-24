@@ -4,30 +4,36 @@ import coolchat from "../../axios/config";
 import { UserContext } from "../../contexts/user";
 import { useNavigate } from "react-router-dom";
 
+import './CreateChat.css';
+
 const CreateChat = () => {
 
   const navigate = useNavigate();
 
-  const {chats, setChats} = useContext(UserContext);
+  const {chats, setChats, user} = useContext(UserContext);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
   const [error, setError] = useState(null);
 
   const createRoom = async (e) => {
-    console.log("AAA");
     e.preventDefault();
     try {
       const resp = await coolchat.post("/room/create", {
         name,
-        password,
+        password: isPrivate ? password : null,
         type: isPrivate ? "private" : "public"
+      }, {  
+        headers: {
+        'Authorization': `Bearer ${user.token}`
+        }
       });
       const createdRoom = resp.data.room;
       setChats(prevChats => [...prevChats, createdRoom]);
       navigate(`/chat/${(chats.length + 1)}`);  
     } 
     catch (error) {
+      console.log(error);
       const thisError = await error.response.data.msg;
       setError(thisError);
     }
@@ -43,13 +49,15 @@ const CreateChat = () => {
           set={setName}
           value={name}
       />
-      <label>Sala Privada?</label>
-      <input type="checkBox" onChange={(e) => setIsPrivate(e.target.checked)}/>
+      <div className="password-container">
+        <label className="text-light">Sala Privada?</label>
+        <input type="checkBox" onChange={(e) => setIsPrivate(e.target.checked)}/>
+      </div>
       {isPrivate && 
         <FormGroup
           label="Insira a senha do chat"
           placeholder="senha"
-          name={"name"}
+          name={"password"}
           set={setPassword}
           value={password}
         />

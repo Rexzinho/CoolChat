@@ -1,14 +1,17 @@
 .messages{
     list-style: none;
     padding: 0;
+    overflow: auto;
+    height: 100%;
 }
 .message-content{
     background-color: #206DDF;
-    width: fit-content;
     padding: 20px;
     border-radius: 30px;
     font-size: 0.8rem;
     margin-top: 3px;
+    max-width: 400px;
+    text-wrap: wrap;
 }
 .message-user{
     font-size: 0.9rem;
@@ -16,6 +19,10 @@
 .message{
     color: white;
     margin-top: 12px;
+    max-width: 400px;
+}
+.messages-container{
+    height: 60%;
 }
 .your-message-content{
     background-color: #000000;
@@ -27,4 +34,17 @@
 }
 .message-you{
     font-size: 0.9rem;
+}
+.cool-textarea{
+    color: white;
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+    width: 80%;
+}
+.send-message-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }

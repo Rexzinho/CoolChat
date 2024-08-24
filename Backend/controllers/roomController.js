@@ -1,4 +1,4 @@
-const connect = require("../models/db");
+const connect = require("../database/db");
 const bcrypt = require("bcrypt");
 const Room = require("../models/room");
 const User = require("../models/user");
@@ -85,16 +85,38 @@ module.exports = class RoomController{
 
     static async messages(req, res){
 
-        const idRoom = req.params.idRoom;
+        const roomId = req.params.roomId;
 
-        if(!idRoom || idRoom === ":idRoom"){
+        if(!roomId || roomId === ":roomId"){
             return res.status(400).json({
                 msg: "Necessário informar o id da sala."
             });
         }
-
+        let permission = false;
+        const room = await Room.findById(roomId);
+        if(!room){
+            return res.status(404).json({
+                msg: "Sala não econtrada."
+            });
+        }
+        if(room.type === "private"){
+            const { password } = req.query;
+            if(password){
+                await bcrypt.compare(password, room.password).then(result => {
+                    if(result) permission = true;
+                })
+            }
+        }
+        else{
+            permission = true;
+        }
+        if(!permission){
+            return res.status(401).json({
+                msg: "Senha de sala incorreta."
+            })
+        }
         try {
-            const room = await Room.findById(idRoom);
+            const room = await Room.findById(roomId);
             if(!room){
                 return res.status(404).json({
                     msg: "Sala não encontrada."
@@ -102,6 +124,7 @@ module.exports = class RoomController{
             }
             const messages = await Promise.all(room.messages.map(async (message) => {
                 const user = await User.findById(message.userId);
+                console.log(message);
                 const data = {
                     content: message.content,
                     nick: user.nick,
@@ -127,11 +150,28 @@ module.exports = class RoomController{
                 msg: "Dados incorretos ao enviar a mensagem."
             })
         }
+        let permission = false;
         const room = await Room.findOne({_id: roomId});
         if(!room){
             return res.status(400).json({
                 msg: "Sala não encontrada."
             });
+        }
+        if(room.type === "private"){
+            const { password } = req.body;
+            if(password){
+                await bcrypt.compare(password, room.password).then(async (result) => {
+                    if(result) permission = true;      
+                });
+            }
+        }
+        else{
+            permission = true;
+        }
+        if(!permission){
+            return res.status(401).json({
+                msg: "Senha de sala incorreta."
+            })
         }
         room.messages.push({content, userId});
         try {
@@ -146,6 +186,37 @@ module.exports = class RoomController{
                 msg: "Erro ao enviar mensagem. Tente novamente mais tarde."
             });
         }
+    }
 
+    static async join(req, res){
+        let permission;
+        const { password } = req.body;
+        const { roomId } = req.params;
+        if(!roomId || roomId === ":roomId"){
+            return res.status(400).json({
+                msg: "Necessário informar o id da sala."
+            });
+        }
+        const room = await Room.findOne({_id: roomId});
+        if(!room){
+            return res.status(400).json({
+                msg: "Sala não encontrada."
+            });
+        }
+        if(password){
+            await bcrypt.compare(password, room.password).then(async (result) => {
+                if(result) permission = true;
+            });
+        }
+        if(permission){
+            return res.status(200).json({
+                msg: "Welcome!"
+            })
+        }
+        else{
+            return res.status(401).json({
+                msg: "Senha de sala incorreta."
+            })
+        }
     }
 }
