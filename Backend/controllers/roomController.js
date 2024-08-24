@@ -124,7 +124,6 @@ module.exports = class RoomController{
             }
             const messages = await Promise.all(room.messages.map(async (message) => {
                 const user = await User.findById(message.userId);
-                console.log(message);
                 const data = {
                     content: message.content,
                     nick: user.nick,

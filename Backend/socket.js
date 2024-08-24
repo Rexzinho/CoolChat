@@ -10,8 +10,14 @@ module.exports = (io) => {
         socket.join(room);
         console.log(`Conectado na sala ${room}`);
     }
+    const leaveRoom = function(room){
+        const socket = this;
+        socket.leave(room);
+        console.log(`Alguém saiu da sala ${room}`);
+    }
     return {
         sendMessage, 
-        joinRoom
+        joinRoom,
+        leaveRoom
     }
 }

@@ -19,7 +19,7 @@ const io = new Server(server, {
       }
 });
 
-const { sendMessage, joinRoom } = require("./socket")(io);
+const { sendMessage, joinRoom, leaveRoom } = require("./socket")(io);
 
 app.use(cors());
 app.use(express.json());
@@ -36,26 +36,11 @@ app.use("/sobre", (req, res) => {
     });
 });
 
-io.use(async (socket, next) => {
-
-    const token = socket.handshake.headers.token;
-    if(!token){
-        return;
-    }
-    const secret = process.env.SECRET;
-    jwt.verify(token, secret, (err, decoded) => {
-        if(err){
-            return ;
-        }
-        next();
-    });
-    next();
-})
-
 const onConnection = (socket) => {
     console.log(socket.id);
     socket.on("send-message", sendMessage);
     socket.on("join-room", joinRoom);
+    socket.on("leave-room", leaveRoom);
 }
 
 io.on("connection", onConnection);

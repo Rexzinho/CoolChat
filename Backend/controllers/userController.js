@@ -69,6 +69,11 @@ module.exports = class UserController{
             })
         }
         const user = await User.findOne({nick: nick});
+        if(!user){
+            return res.status(404).json({
+                msg: "Usuário não encontrado."
+            })
+        }
         bcrypt.compare(password, user.password).then((result) => {
             if(result){
                 const secret = process.env.SECRET;
@@ -88,4 +93,9 @@ module.exports = class UserController{
         })
     }
 
+    static async checkToken(req, res){
+        res.status(200).json({
+            msg: "Token válido."
+        })
+    }
 }
