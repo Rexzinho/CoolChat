@@ -56,6 +56,7 @@ module.exports = class RoomController{
                     id: createdRoom._id,
                     name: createdRoom.name,
                     type: createdRoom.type,
+                    password,
                 }
             })
         }
