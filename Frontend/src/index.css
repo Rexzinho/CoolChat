@@ -14,6 +14,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 20px;
 }
 .cool-btn{
     padding: 8px 14px;
@@ -23,9 +24,11 @@
     border: none;
     border-radius: 30px;
     align-self: center;
+    transition: 0.3s;
 }
 .cool-btn:hover{
     cursor: pointer;
+    scale: 1.1;
 }
 .error-message{
     text-align: center;

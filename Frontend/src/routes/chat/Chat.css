@@ -2,7 +2,7 @@
     list-style: none;
     padding: 0;
     overflow: auto;
-    height: 100%;
+    height: 90%;
 }
 .message-content{
     background-color: #206DDF;
@@ -10,7 +10,6 @@
     border-radius: 30px;
     font-size: 0.8rem;
     margin-top: 3px;
-    max-width: 400px;
     text-wrap: wrap;
 }
 .message-user{
@@ -22,7 +21,12 @@
     max-width: 400px;
 }
 .messages-container{
-    height: 60%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
 }
 .your-message-content{
     background-color: #000000;

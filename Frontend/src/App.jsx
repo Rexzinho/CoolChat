@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import './App.css'
 
 import Navbar from './components/navbar/Navbar';
+import LittleBalls from './assets/LittleBalls.svg';
 
 const App = () => {
   return (
@@ -11,6 +12,9 @@ const App = () => {
       <div className="main">
         <Navbar/>
         <div className="container">
+          <div className="container-header">
+            <img src={LittleBalls} style={{scale: "0.7"}}/>
+          </div>
           <Outlet/>
         </div>
       </div>

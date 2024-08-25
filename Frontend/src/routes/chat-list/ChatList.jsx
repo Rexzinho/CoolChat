@@ -51,7 +51,7 @@ const ChatList = () => {
   }
 
   return (
-    <div>
+    <>
       {passwordModal && 
         <PasswordModal 
           setPassword={setPassword}
@@ -77,14 +77,22 @@ const ChatList = () => {
         {rooms.map(room => (
           <li key={room.id}>
             <div className="border">
-              <div className="inside" onClick={() => openChat(room)}>
-                {room.name}
+              <div 
+                className="inside" 
+                onClick={() => openChat(room)}
+                style={{display: "flex", justifyContent: "space-between"}}
+              >
+                <span>{room.name}</span>
+                <span
+                  style={room.type === "private" ? {color: "#9644FE"} : {color: "#FF7008"}}
+                  >{room.type}
+                </span>
               </div>
             </div>
           </li>
         ))}
       </ul>
-    </div>
+    </>
   )
 }
 

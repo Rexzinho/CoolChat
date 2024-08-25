@@ -1,11 +1,14 @@
 import { useContext, useEffect, useState } from "react"
 import coolchat from '../../axios/config';
-import { redirect, useNavigate } from 'react-router-dom';
+import { redirect, useNavigate, Link } from 'react-router-dom';
 import { UserContext } from "../../contexts/user";
 import Dice from '../../assets/Dice.svg';
 import FormGroup from "../../components/form-group/FormGroup";
+import './Register.css';
 
 import { adjectives, animals } from "./Names";
+
+const nickInput = document.getElementById("nick");
 
 const Register = () =>{
 
@@ -47,6 +50,12 @@ const Register = () =>{
     const num2 = Math.floor(Math.random() * animals.length);
     const adjective = adjectives[num1];
     const animal = animals[num2];
+    nickInput.style.scale = "0.90";
+    nickInput.style.color = "gray";
+    setTimeout(() => {
+      nickInput.style.scale = "1";
+      nickInput.style.color = "white";
+    }, 100);
     setNick(adjective + " " + animal);
   }
 
@@ -62,6 +71,7 @@ const Register = () =>{
                 placeholder="nick" 
                 type="text" 
                 name="nick"
+                id="nick"
                 onChange={(event) => setNick(event.target.value)}
                 value={nick}
               />
@@ -86,6 +96,15 @@ const Register = () =>{
         <button type="submit" className="cool-btn">Criar conta</button>
       </form>
       {error && <p className="error-message">{error}</p>}
+      <p 
+      className="create-account" 
+      style={{
+        textAlign: "center",
+        padding: "10px"
+      }}
+      >
+          Já tem uma conta? <label><Link to={"/home"}>Entrar</Link></label>
+      </p>
     </div>
   )
 }

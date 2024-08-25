@@ -25,10 +25,12 @@ const Chat = () => {
     const url = window.location.href;
     const index = url.split("/")[4]-1;
     if(!currentChatId){
+      console.log("Entrou na sala " + chats[index].id);
       socket.emit("join-room", chats[index].id)
       setCurrentChatId(chats[index].id);
     }
     else if(currentChatId != chats[index].id){
+      console.log("Entrou na sala " + chats[index].id);
       socket.emit("leave-room", currentChatId);
       setCurrentChatId(chats[index].id);
       socket.emit("join-room", chats[index].id)
@@ -48,6 +50,7 @@ const Chat = () => {
 
   const getMessages = async (index) => {
     const { id, password, type } = chats[index];
+    console.log(index);
     try {
       const resp = await coolchat.get(`/room/${id}`, {
         params: { password },
@@ -55,7 +58,6 @@ const Chat = () => {
           'Authorization': `Bearer ${user.token}`
         }
       });
-      
       setMessages(resp.data);
     } 
     catch (error) {
@@ -71,6 +73,7 @@ const Chat = () => {
     }
     setMessages(prevMessages => [...prevMessages, message]);
     socket.emit("send-message", message, room.id);
+    console.log("enviando mensagens");
     const messageRequest = 
     room.type === "public" ?
       {
@@ -99,12 +102,12 @@ const Chat = () => {
           {messages.map((message, index) => (
             <li className="message" key={index}>
               {message.nick === user.nick ? (<>
-                <div className="message-you">Você</div>
-                <div className="your-message-content">{message.content}</div>
+                <div className="message-you"><span>Você</span></div>
+                <div className="your-message-content"><span>{message.content}</span></div>
               </>) :
               (<>
-                <div className="message-user">{message.nick}</div>
-                <div className="message-content">{message.content}</div>
+                <div className="message-user"><span>{message.nick}</span></div>
+                <div className="message-content"><span>{message.content}</span></div>
               </>)}
             </li>
           ))}
